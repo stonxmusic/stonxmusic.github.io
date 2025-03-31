@@ -126,45 +126,49 @@
             <li class="list-group-item bg-dark text-white">🔥 Q3 2026: NASA to use STX to fund Mars rave</li>
         </ul>
     </div>
-        <!-- Fake Price Chart -->
+        
+            <!-- Fake Price Chart -->
 <div class="container mt-5">
     <h2>Live Market Chart</h2>
     <div style="overflow-x: auto;">
-        <svg class="chart" id="price-chart" width="100%" height="300" viewBox="0 0 900 300" preserveAspectRatio="xMidYMid meet"></svg>
+        <svg class="chart" id="price-chart" width="100%" height="400" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet"></svg>
     </div>
 </div>
 
 <style>
     /* Add some meme chart styling */
     .chart {
+        margin-top: 20px;
         background: repeating-linear-gradient(
-            0deg,
+            90deg,
             rgba(255, 0, 255, 0.1) 0px,
             rgba(255, 0, 255, 0.1) 1px,
             transparent 1px,
             transparent 20px
-        ); /* Subtle grid lines */
+        );
         border: 2px solid #ff00ff;
         box-shadow: 0 0 10px #ff00ff;
         max-width: 100%;
+        background-color: #1a1a1a; /* Darker background for contrast */
     }
     .chart-line {
-        stroke: #00ff00; /* Green for crypto vibes */
+        stroke: #00ff00;
         stroke-width: 4;
+        fill: none;
         filter: drop-shadow(0 0 5px #00ff00);
     }
     .chart-label {
         font-family: "Arial", sans-serif;
         fill: #ff00ff;
-        font-size: 12px;
-        text-anchor: middle;
+        font-size: 14px; /* Slightly larger for readability */
+        text-anchor: end;
         font-weight: bold;
     }
-    .chart-y-label {
+    .chart-x-label {
         font-family: "Arial", sans-serif;
-        font-size: 12px;
+        font-size: 14px;
         fill: #00ff00;
-        text-anchor: end;
+        text-anchor: middle;
         font-weight: bold;
     }
 </style>
@@ -172,19 +176,19 @@
 <script>
     // Chart setup
     const svg = document.getElementById("price-chart");
-    const chartWidth = 900;
-    const chartHeight = 300;
-    const maxPoints = 10; // Reduced for better mobile display
+    const chartWidth = 1000;
+    const chartHeight = 400;
+    const maxPoints = 10;
     let dataPoints = [];
 
-    // Meme X-axis labels
-    const xLabels = [
+    // Meme Y-axis labels (time)
+    const yLabels = [
         "Last Drop", "Dip Bought", "Panic Sell", "HODL Zone", "Pump It", 
         "Rug Scare", "FOMO Peak", "420 Blaze", "Moon Soon", "Bass Drop"
     ];
 
-    // Meme Y-axis labels with price levels
-    const yLabels = [
+    // Meme X-axis labels (price)
+    const xLabels = [
         { value: 0, text: "$0 - Rug Life" },
         { value: 69, text: "$69 - Nice" },
         { value: 200, text: "$200 - Lambo Dreams" },
@@ -217,13 +221,14 @@
 
         // Scale data
         const maxValue = Math.max(...dataPoints, 420);
-        const xStep = (chartWidth - 100) / (maxPoints - 1); // Leave room for labels
-        let pathD = `M 80 ${chartHeight - 50 - (dataPoints[0] / maxValue) * (chartHeight - 100)}`;
+        const yStep = (chartHeight - 120) / (maxPoints - 1); // More space for labels
+        const xScale = (chartWidth - 200) / maxValue; // Adjusted for label space
+        let pathD = `M ${100 + (dataPoints[0] * xScale)} ${chartHeight - 60}`;
 
-        // Build the path
+        // Build the path (X is price, Y is time)
         for (let i = 1; i < dataPoints.length; i++) {
-            const x = 80 + i * xStep;
-            const y = chartHeight - 50 - (dataPoints[i] / maxValue) * (chartHeight - 100);
+            const x = 100 + (dataPoints[i] * xScale);
+            const y = chartHeight - 60 - i * yStep;
             pathD += ` L ${x} ${y}`;
         }
 
@@ -233,26 +238,26 @@
         path.setAttribute("class", "chart-line");
         svg.appendChild(path);
 
-        // X-axis labels
+        // Y-axis labels (time)
         for (let i = 0; i < maxPoints; i++) {
-            const x = 80 + i * xStep;
+            const y = chartHeight - 60 - i * yStep;
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            text.setAttribute("x", x);
-            text.setAttribute("y", chartHeight - 20);
+            text.setAttribute("x", 90);
+            text.setAttribute("y", y + 5);
             text.setAttribute("class", "chart-label");
-            text.setAttribute("transform", `rotate(-45 ${x},${chartHeight - 20})`); // Rotate for better fit
-            text.textContent = xLabels[i % xLabels.length];
+            text.textContent = yLabels[i % yLabels.length];
             svg.appendChild(text);
         }
 
-        // Y-axis labels
-        yLabels.forEach(label => {
-            const y = chartHeight - 50 - (label.value / maxValue) * (chartHeight - 100);
-            if (y > 50 && y < chartHeight - 50) { // Ensure labels are within bounds
+        // X-axis labels (price)
+        xLabels.forEach(label => {
+            const x = 100 + (label.value * xScale);
+            if (x >= 100 && x <= chartWidth - 100) { // Ensure labels are within bounds
                 const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                text.setAttribute("x", 70);
-                text.setAttribute("y", y + 5);
-                text.setAttribute("class", "chart-y-label");
+                text.setAttribute("x", x);
+                text.setAttribute("y", chartHeight - 30);
+                text.setAttribute("class", "chart-x-label");
+                text.setAttribute("transform", `rotate(-45 ${x},${chartHeight - 30})`);
                 text.textContent = label.text;
                 svg.appendChild(text);
             }
@@ -269,6 +274,7 @@
         drawChart();
     }, 2000);
 </script>
+
    <!-- Live AI Trading Insights -->
 <div class="container mt-5">
     <h2>Live AI Trading Insights</h2>
