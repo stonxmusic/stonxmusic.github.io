@@ -53,16 +53,6 @@
             100% { transform: rotate(0deg); }
         }
 
-        .confetti {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
         .confetti-piece {
             position: absolute;
             width: 10px;
@@ -74,22 +64,6 @@
         @keyframes confetti {
             0% { transform: translateY(-100px) rotate(0deg); }
             100% { transform: translateY(100vh) rotate(360deg); }
-        }
-
-        /* Table Styling for Leaderboard */
-        table th, table td {
-            text-align: center;
-            vertical-align: middle;
-        }
-        
-        /* Fun Market Sentiment Section */
-        .sentiment {
-            font-size: 1.2rem;
-            color: #ff00ff;
-            background-color: #000;
-            padding: 15px;
-            margin-top: 30px;
-            border-radius: 10px;
         }
     </style>
 </head>
@@ -107,175 +81,53 @@
         <a href="https://www.instagram.com/stonx_music/" class="btn btn-primary mt-3" target="_blank">Watch the Promo Video</a>
     </div>
 
-    <!-- What is STX? -->
+    <!-- Proof of Bass Section -->
     <div class="container mt-5">
-        <h2>What is Stonx Coin?</h2>
-        <p>STX is the world's first cryptocurrency powered by <b>Proof of Bass™</b>, ensuring every transaction is backed by heavy sub-bass resonance. Because bass is money!</p>
+        <h2>Proof of Bass™ - The Future of Audio-Backed Crypto</h2>
+        <p>STX transactions are verified using advanced subwoofer resonance technology. The louder the bass, the more secure the network. Real DJs, real bass, real gains.</p>
     </div>
 
-    <!-- Roadmap -->
+    <!-- Fake Team Section -->
+    <div class="container mt-5">
+        <h2>Meet the Team</h2>
+        <ul class="list-group">
+            <li class="list-group-item bg-dark text-white">CEO: DJ Rugpull</li>
+            <li class="list-group-item bg-dark text-white">Lead Developer: MC Ponzi</li>
+            <li class="list-group-item bg-dark text-white">Marketing: Lil Pump & Dump</li>
+            <li class="list-group-item bg-dark text-white">Community Manager: Sir HODL</li>
+        </ul>
+    </div>
+
+    <!-- Upgraded Roadmap -->
     <div class="container mt-5">
         <h2>Roadmap</h2>
         <ul class="list-group">
             <li class="list-group-item bg-dark text-white">🎛️ Q2 2025: Implement bass-driven staking (Upload MP3s to mine STX)</li>
             <li class="list-group-item bg-dark text-white">🌎 Q3 2025: Replace all global currencies with STX</li>
             <li class="list-group-item bg-dark text-white">🔥 Q4 2025: Drop the hardest VIP in history</li>
+            <li class="list-group-item bg-dark text-white">🚀 Q1 2026: Force festival ticket sales to use STX</li>
+            <li class="list-group-item bg-dark text-white">💰 Q2 2026: Secure government contract for Universal Basic Bass</li>
         </ul>
     </div>
 
-   <!-- Live AI Trading Insights -->
-<div class="container mt-5">
-    <h2>Live AI Trading Insights</h2>
-    <p id="trading-insight">Just liquidated my grandma’s house for $STX 🚀🔥</p>
-</div>
-
-<script>
-    const insights = [
-        "Just liquidated my grandma’s house for $STX 🚀🔥",
-        "Sold my car, bought the dip, now I ride the waves 🏄‍♂️💸",
-        "My fridge is empty, but my wallet is full of STX 😎",
-        "Quit my job to day trade STX. What could go wrong? 📉🔥",
-        "Bought STX at $0.69, now it's at $420. Coincidence? I think not. 🤯",
-        "Mom said it's a scam, now she's asking for financial advice 😏",
-        "Casually explaining to the bank why I need another mortgage 🏦💀",
-        "NFTs are out, BassFi is in. All in on STX 🚀",
-        "Just convinced my boss to pay me in STX. He thinks it's Bitcoin 🤫",
-        "Got my landlord to accept rent in STX. The future is now 🔥"
-    ];
-
-    function updateInsight() {
-        const randomIndex = Math.floor(Math.random() * insights.length);
-        document.getElementById("trading-insight").textContent = insights[randomIndex];
-    }
-
-    setInterval(updateInsight, 4000); // Changes every 4 seconds
-</script>
-
-    <!-- Fake Leaderboard -->
+    <!-- Fake "Connect Wallet" Button -->
     <div class="container mt-5">
-        <h2>Top STX Holders</h2>
-        <table class="table table-dark table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Rank</th>
-                    <th scope="col">Holder Name</th>
-                    <th scope="col">STX Wallet</th>
-                    <th scope="col">STX Balance</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>DJ Rugpull</td>
-                    <td>0xD3ADBEAD</td>
-                    <td>420,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Skankin Whale</td>
-                    <td>0xBASSB00M</td>
-                    <td>350,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Subwoofer King</td>
-                    <td>0xS0N1CBLAST</td>
-                    <td>300,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>FartCoin CEO</td>
-                    <td>0xRUGS0R</td>
-                    <td>250,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>MoonBass Holder</td>
-                    <td>0xDEEPERTHANBASS</td>
-                    <td>200,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>BassLine Baron</td>
-                    <td>0xBASSYBOY</td>
-                    <td>150,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Sir Dropalot</td>
-                    <td>0xDROPTHETON</td>
-                    <td>100,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>Neurofunk Lord</td>
-                    <td>0xSYNTHN00B</td>
-                    <td>50,000,000 STX</td>
-                </tr>
-            </tbody>
-        </table>
-        <p><em>*The whales are here, but don't worry, we’ve got plenty of STX to go around. Just don’t ask them to dump early.</em></p>
+        <button class="btn btn-danger" id="connect-wallet">Connect Wallet</button>
     </div>
+
+    <script>
+        document.getElementById("connect-wallet").addEventListener("click", function() {
+            alert("Error: Your wallet is not bass-heavy enough.");
+        });
+    </script>
 
     <!-- Market Sentiment Section -->
     <div class="container mt-5 sentiment">
-        <h3>Market Sentiment: 😎</h3>
+        <h3>Market Sentiment: 🚀🚀🚀</h3>
         <p>"I bought 10,000 STX for 69 cents and now I'm buying a yacht!" 🚢</p>
-        <p>Don't miss out, get in before the moon landing! 🚀🔥</p>
+        <p>"My landlord is now asking to be paid in STX. The revolution has begun."</p>
+        <p>"Bank just called to ask if I need financial advice. I said 'Nah, I have STX.'"</p>
     </div>
-
-    <!-- RUG PULL Button -->
-    <div class="container mt-5">
-        <button class="btn btn-danger btn-lg" id="rugpull">RUG PULL</button>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
-    <script>
-        // Fake Price Ticker (Randomized)
-        function updatePrice() {
-            let newPrice = (Math.random() * (420 - 0.69) + 0.69).toFixed(3);
-            $(".price").text("$" + newPrice);
-        }
-        setInterval(updatePrice, 2000);
-
-        // Rug Pull Button (Chaos Mode)
-        $("#rugpull").click(function() {
-            $("body").css("background-color", "red");
-            $("body").html("<h1>RUG PULLED. LMAO.</h1><p>Thanks for your investment, nerd.</p>");
-        });
-
-        // GSAP Animation for Hero Section
-        gsap.from(".hero h1, .hero h3, .hero .price, .hero .btn-buy", {
-            duration: 1,
-            y: -50,
-            opacity: 0,
-            stagger: 0.2,
-            ease: "bounce.out"
-        });
-
-        // Buy Now Button - Play Airhorn Sound
-        $("#buy-now").click(function() {
-            let airhorn = new Audio("https://www.myinstants.com/media/sounds/airhorn.mp3");
-            airhorn.play();
-
-            // Confetti Effect
-            let confettiArea = $("<div class='confetti'></div>").appendTo("body");
-            for (let i = 0; i < 50; i++) {
-                $("<div class='confetti-piece'></div>").css({
-                    left: Math.random() * 100 + "%",
-                    animationDuration: Math.random() * 2 + 2 + "s",
-                    animationDelay: Math.random() * 1 + "s",
-                    backgroundColor: "#" + Math.floor(Math.random() * 16777215).toString(16)
-                }).appendTo(confettiArea);
-            }
-
-            alert("You are now financially obligated to ride the bassline to the moon.");
-        });
-    </script>
 
 </body>
 </html>
