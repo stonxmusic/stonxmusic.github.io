@@ -139,10 +139,75 @@
         </ul>
     </div>
 <!-- Fake Price Chart -->
-    <div class="container mt-5">
-        <h2>Live Market Chart</h2>
-        <svg class="chart" id="price-chart"></svg>
-    </div>
+<div class="container mt-5">
+    <h2>Live Market Chart</h2>
+    <svg class="chart" id="price-chart" width="100%" height="200" viewBox="0 0 800 200"></svg>
+</div>
+
+<script>
+    // Chart setup
+    const svg = document.getElementById("price-chart");
+    const chartWidth = 800;
+    const chartHeight = 200;
+    const maxPoints = 20; // Number of points to display
+    let dataPoints = [];
+
+    // Initialize with some starting data
+    function initializeData() {
+        let lastValue = 100; // Starting value
+        for (let i = 0; i < maxPoints; i++) {
+            // Random change, biased upward (-5 to +15)
+            lastValue += (Math.random() * 20 - 5);
+            if (lastValue < 0) lastValue = 0; // Prevent negative values
+            dataPoints.push(lastValue);
+        }
+    }
+
+    // Update data with new random point
+    function updateData() {
+        let lastValue = dataPoints[dataPoints.length - 1];
+        // Bias toward upward trend: -5 to +15 range
+        let change = Math.random() * 20 - 5;
+        lastValue += change;
+        if (lastValue < 0) lastValue = 0; // Keep it positive
+        dataPoints.push(lastValue);
+        if (dataPoints.length > maxPoints) dataPoints.shift(); // Remove oldest point
+    }
+
+    // Draw the chart
+    function drawChart() {
+        // Clear previous chart
+        svg.innerHTML = "";
+
+        // Scale data to fit chart height
+        const maxValue = Math.max(...dataPoints, 200); // Ensure visibility
+        const xStep = chartWidth / (maxPoints - 1);
+        let pathD = `M 0 ${chartHeight - (dataPoints[0] / maxValue) * chartHeight}`;
+
+        // Build the path
+        for (let i = 1; i < dataPoints.length; i++) {
+            const x = i * xStep;
+            const y = chartHeight - (dataPoints[i] / maxValue) * chartHeight;
+            pathD += ` L ${x} ${y}`;
+        }
+
+        // Create the path element
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", pathD);
+        path.setAttribute("class", "chart-line");
+        svg.appendChild(path);
+    }
+
+    // Initial setup
+    initializeData();
+    drawChart();
+
+    // Auto-update every 2 seconds
+    setInterval(() => {
+        updateData();
+        drawChart();
+    }, 2000);
+</script>
    <!-- Live AI Trading Insights -->
 <div class="container mt-5">
     <h2>Live AI Trading Insights</h2>
