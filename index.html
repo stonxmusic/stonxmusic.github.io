@@ -121,11 +121,33 @@
         </ul>
     </div>
 
-    <!-- Live AI Trading Insights -->
-    <div class="container mt-5">
-        <h2>Live AI Trading Insights</h2>
-        <p>Just liquidated my grandma’s house for $STX 🚀🔥</p>
-    </div>
+   <!-- Live AI Trading Insights -->
+<div class="container mt-5">
+    <h2>Live AI Trading Insights</h2>
+    <p id="trading-insight">Just liquidated my grandma’s house for $STX 🚀🔥</p>
+</div>
+
+<script>
+    const insights = [
+        "Just liquidated my grandma’s house for $STX 🚀🔥",
+        "Sold my car, bought the dip, now I ride the waves 🏄‍♂️💸",
+        "My fridge is empty, but my wallet is full of STX 😎",
+        "Quit my job to day trade STX. What could go wrong? 📉🔥",
+        "Bought STX at $0.69, now it's at $420. Coincidence? I think not. 🤯",
+        "Mom said it's a scam, now she's asking for financial advice 😏",
+        "Casually explaining to the bank why I need another mortgage 🏦💀",
+        "NFTs are out, BassFi is in. All in on STX 🚀",
+        "Just convinced my boss to pay me in STX. He thinks it's Bitcoin 🤫",
+        "Got my landlord to accept rent in STX. The future is now 🔥"
+    ];
+
+    function updateInsight() {
+        const randomIndex = Math.floor(Math.random() * insights.length);
+        document.getElementById("trading-insight").textContent = insights[randomIndex];
+    }
+
+    setInterval(updateInsight, 4000); // Changes every 4 seconds
+</script>
 
     <!-- Fake Leaderboard -->
     <div class="container mt-5">
