@@ -132,8 +132,9 @@
     <p id="trading-insight">Just liquidated my grandma’s house for $STX 🚀🔥</p>
 </div>
 
+
 <script>
-    const insights = [
+    let insights = [
         "Just liquidated my grandma’s house for $STX 🚀🔥",
         "Sold my car, bought the dip, now I ride the waves 🏄‍♂️💸",
         "My fridge is empty, but my wallet is full of STX 😎",
@@ -145,36 +146,43 @@
         "Just convinced my boss to pay me in STX. He thinks it's Bitcoin 🤫",
         "Got my landlord to accept rent in STX. The future is now 🔥",
         "DJ Khaled said ‘BUY ANOTHER ONE’… so I did. STX to the moon! 🚀🎶",
-"Sold my speakers to buy more STX. Now I just imagine the bass. 🎧💸" ,
-"STX just hit 4,200% gains! I can finally afford one festival beer! 🍻🚀",
-"Mom said stop trading, now she’s asking how to stake STX. 🤔💰", 
-"I tried to short STX, now my rent is due in exposure. 📉🔥",
-"Quit my job, sold my car, moved into a bass bin. All in on STX! 🎛️💰",
-"Dropped my entire net worth into STX. Even my subwoofers are shaking. 🎶💎",
-"Told my landlord I can't pay rent, but I got him an STX airdrop instead. 🤝",
-"Bass traders don’t panic sell, we double drop. 🥁💥📈",
-"Tried to stake STX but accidentally bought a whole festival ticket instead. 🎟️🔥",  
-"My entire portfolio is now just STX and hope. 🚀💀",
-"Charts said sell, but the drop was too fire. All in. 🔥📉📈",
-"Listening to STX price updates like it’s a drum & bass set. 🥁📊",
-"Wife left me because of STX… but now I can double down. 💔💎",
-"Casually explaining to my family why I need another remortgage for STX. 🏦💀",
-"Degen mode activated: spent my last £20 on STX instead of food. 🍽️📉", 
-"Wrote a song about STX mooning, then it dumped. Call me DJ Rugpull. 🎶📉",
-"Lost everything on STX, but at least the memes are fire. 🔥😂",
-"STX just pumped 500%. Still won’t sell. Only exit is generational wealth. 🚀💎",
-"Dropped out of school to trade STX full-time. No regrets. Just vibes. 😎📊",
-
-
+        "Sold my speakers to buy more STX. Now I just imagine the bass. 🎧💸",
+        "STX just hit 4,200% gains! I can finally afford one festival beer! 🍻🚀",
+        "Mom said stop trading, now she’s asking how to stake STX. 🤔💰",
+        "I tried to short STX, now my rent is due in exposure. 📉🔥",
+        "Quit my job, sold my car, moved into a bass bin. All in on STX! 🎛️💰",
+        "Dropped my entire net worth into STX. Even my subwoofers are shaking. 🎶💎",
+        "Told my landlord I can't pay rent, but I got him an STX airdrop instead. 🤝",
+        "Bass traders don’t panic sell, we double drop. 🥁💥📈",
+        "Tried to stake STX but accidentally bought a whole festival ticket instead. 🎟️🔥",
+        "My entire portfolio is now just STX and hope. 🚀💀",
+        "Charts said sell, but the drop was too fire. All in. 🔥📉📈",
+        "Listening to STX price updates like it’s a drum & bass set. 🥁📊",
+        "Wife left me because of STX… but now I can double down. 💔💎",
+        "Casually explaining to my family why I need another remortgage for STX. 🏦💀",
+        "Degen mode activated: spent my last £20 on STX instead of food. 🍽️📉",
+        "Wrote a song about STX mooning, then it dumped. Call me DJ Rugpull. 🎶📉",
+        "Lost everything on STX, but at least the memes are fire. 🔥😂",
+        "STX just pumped 500%. Still won’t sell. Only exit is generational wealth. 🚀💎",
+        "Dropped out of school to trade STX full-time. No regrets. Just vibes. 😎📊"
     ];
 
+    let unusedInsights = [...insights]; // Copy of the original list
+
     function updateInsight() {
-        const randomIndex = Math.floor(Math.random() * insights.length);
-        document.getElementById("trading-insight").textContent = insights[randomIndex];
+        if (unusedInsights.length === 0) {
+            unusedInsights = [...insights]; // Reset when all have been used
+        }
+
+        const randomIndex = Math.floor(Math.random() * unusedInsights.length);
+        const insight = unusedInsights.splice(randomIndex, 1)[0]; // Remove from list
+
+        document.getElementById("trading-insight").textContent = insight;
     }
 
-    setInterval(updateInsight, 3000); // Changes every 3 seconds
+    setInterval(updateInsight, 3500); // Changes every 3.5 seconds
 </script>
+
 
     <!-- Fake Leaderboard -->
     <div class="container mt-5">
