@@ -166,101 +166,107 @@
     </style>
 
     <script>
-        // Chart setup
-        const svg = document.getElementById("price-chart");
-        const chartWidth = 1000;
-        const chartHeight = 400;
-        const maxPoints = 10;
-        let dataPoints = [];
-        let trendDirection = 1;
-        let trendCounter = 0;
+   // Chart setup
+const svg = document.getElementById("price-chart");
+const chartWidth = 1000;
+const chartHeight = 400;
+const maxPoints = 10;
+let dataPoints = [];
+let trendDirection = 1;
+let trendCounter = 0;
 
-        // Meme Y-axis labels (labeled as time, but actually price)
-        const yLabels = [
-            "Last Drop", "Dip Bought", "Panic Sell", "HODL Zone", "Pump It", 
-            "Rug Scare", "FOMO Peak", "420 Blaze", "Moon Soon", "Bass Drop"
-        ];
+// Meme Y-axis labels (labeled as time, but actually price)
+const yLabels = [
+    "Last Drop", "Dip Bought", "Panic Sell", "HODL Zone", "Pump It", 
+    "Rug Scare", "FOMO Peak", "420 Blaze", "Moon Soon", "Bass Drop"
+];
 
-        // Initialize data with a volatile pattern
-        function initializeData() {
-            let lastValue = 100;
-            for (let i = 0; i < maxPoints; i++) {
-                if (trendCounter > 2) {
-                    trendDirection *= -1;
-                    trendCounter = 0;
-                }
-                let change = trendDirection * (Math.random() * 30 + 10);
-                if (Math.random() < 0.3) change *= 1.5;
-                lastValue += change;
-                if (lastValue < 0) lastValue = 0;
-                if (lastValue > 420) lastValue = 420;
-                dataPoints.push(lastValue);
-                trendCounter++;
-            }
+// Initialize data with a more volatile pattern
+function initializeData() {
+    let lastValue = 200; // Start in the middle to allow for bigger swings
+    for (let i = 0; i < maxPoints; i++) {
+        // Flip trend direction more frequently (every 1-2 points)
+        if (Math.random() > 0.5 || trendCounter > 1) {
+            trendDirection *= -1;
+            trendCounter = 0;
         }
+        // Larger price changes for more dramatic swings
+        let change = trendDirection * (Math.random() * 100 + 50); // Bigger range: 50 to 150
+        if (Math.random() < 0.4) change *= 2; // 40% chance of an even bigger swing
+        lastValue += change;
+        // Keep within bounds
+        if (lastValue < 0) lastValue = 0;
+        if (lastValue > 420) lastValue = 420;
+        dataPoints.push(lastValue);
+        trendCounter++;
+    }
+}
 
-        // Update data with volatile up-and-down movements
-        function updateData() {
-            let lastValue = dataPoints[dataPoints.length - 1];
-            if (trendCounter > 2) {
-                trendDirection *= -1;
-                trendCounter = 0;
-            }
-            let change = trendDirection * (Math.random() * 30 + 10);
-            if (Math.random() < 0.3) change *= 1.5;
-            lastValue += change;
-            if (lastValue < 0) lastValue = 0;
-            if (lastValue > 420) lastValue = 420;
-            dataPoints.push(lastValue);
-            if (dataPoints.length > maxPoints) dataPoints.shift();
-            trendCounter++;
-        }
+// Update data with more volatile up-and-down movements
+function updateData() {
+    let lastValue = dataPoints[dataPoints.length - 1];
+    // Flip trend direction more frequently
+    if (Math.random() > 0.5 || trendCounter > 1) {
+        trendDirection *= -1;
+        trendCounter = 0;
+    }
+    // Larger price changes for more dramatic swings
+    let change = trendDirection * (Math.random() * 100 + 50); // Bigger range: 50 to 150
+    if (Math.random() < 0.4) change *= 2; // 40% chance of an even bigger swing
+    lastValue += change;
+    // Keep within bounds
+    if (lastValue < 0) lastValue = 0;
+    if (lastValue > 420) lastValue = 420;
+    dataPoints.push(lastValue);
+    if (dataPoints.length > maxPoints) dataPoints.shift();
+    trendCounter++;
+}
 
-        // Draw the chart
-        function drawChart() {
-            svg.innerHTML = "";
+// Draw the chart
+function drawChart() {
+    svg.innerHTML = "";
 
-            // Scale data
-            const maxValue = Math.max(...dataPoints, 420);
-            const xStep = (chartWidth - 200) / (maxPoints - 1);
-            const yScale = (chartHeight - 120) / maxValue;
-            let pathD = `M 100 ${chartHeight - 60 - (dataPoints[0] * yScale)}`;
+    // Scale data
+    const maxValue = Math.max(...dataPoints, 420);
+    const xStep = (chartWidth - 200) / (maxPoints - 1);
+    const yScale = (chartHeight - 120) / maxValue;
+    let pathD = `M 100 ${chartHeight - 60 - (dataPoints[0] * yScale)}`;
 
-            // Build the path (X is time, Y is price)
-            for (let i = 1; i < dataPoints.length; i++) {
-                const x = 100 + i * xStep;
-                const y = chartHeight - 60 - (dataPoints[i] * yScale);
-                pathD += ` L ${x} ${y}`;
-            }
+    // Build the path (X is time, Y is price)
+    for (let i = 1; i < dataPoints.length; i++) {
+        const x = 100 + i * xStep;
+        const y = chartHeight - 60 - (dataPoints[i] * yScale);
+        pathD += ` L ${x} ${y}`;
+    }
 
-            // Draw the path
-            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            path.setAttribute("d", pathD);
-            path.setAttribute("class", "chart-line");
-            svg.appendChild(path);
+    // Draw the path
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", pathD);
+    path.setAttribute("class", "chart-line");
+    svg.appendChild(path);
 
-            // Y-axis labels (labeled as time, but actually price)
-            for (let i = 0; i < maxPoints; i += 2) { // Step by 2 to reduce label density
-                const priceValue = (i / (maxPoints - 1)) * maxValue;
-                const y = chartHeight - 60 - (priceValue * yScale);
-                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                text.setAttribute("x", 90);
-                text.setAttribute("y", y + 5);
-                text.setAttribute("class", "chart-label");
-                text.textContent = yLabels[i % yLabels.length];
-                svg.appendChild(text);
-            }
-        }
+    // Y-axis labels (labeled as time, but actually price)
+    for (let i = 0; i < maxPoints; i += 2) { // Step by 2 to reduce label density
+        const priceValue = (i / (maxPoints - 1)) * maxValue;
+        const y = chartHeight - 60 - (priceValue * yScale);
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.setAttribute("x", 90);
+        text.setAttribute("y", y + 5);
+        text.setAttribute("class", "chart-label");
+        text.textContent = yLabels[i % yLabels.length];
+        svg.appendChild(text);
+    }
+}
 
-        // Initial setup
-        initializeData();
-        drawChart();
+// Initial setup
+initializeData();
+drawChart();
 
-        // Auto-update every 2 seconds
-        setInterval(() => {
-            updateData();
-            drawChart();
-        }, 2000);
+// Auto-update every 2 seconds
+setInterval(() => {
+    updateData();
+    drawChart();
+}, 2000);
     </script>
 
     <!-- Live AI Trading Insights -->
