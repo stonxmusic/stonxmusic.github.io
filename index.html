@@ -91,6 +91,19 @@
             margin-top: 30px;
             border-radius: 10px;
         }
+        /* Fake Chart */
+        .chart {
+            margin-top: 20px;
+            width: 80%;
+            height: 200px;
+            background: black;
+            border: 2px solid white;
+        }
+        .chart-line {
+            stroke: #ff00ff;
+            stroke-width: 3;
+            fill: none;
+        }
     </style>
 </head>
 <body>
@@ -125,7 +138,11 @@
             <li class="list-group-item bg-dark text-white">🔥 Q3 2026: NASA to use STX to fund Mars rave</li>
         </ul>
     </div>
-
+<!-- Fake Price Chart -->
+    <div class="container mt-5">
+        <h2>Live Market Chart</h2>
+        <svg class="chart" id="price-chart"></svg>
+    </div>
    <!-- Live AI Trading Insights -->
 <div class="container mt-5">
     <h2>Live AI Trading Insights</h2>
