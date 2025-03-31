@@ -138,64 +138,128 @@
             <li class="list-group-item bg-dark text-white">🔥 Q3 2026: NASA to use STX to fund Mars rave</li>
         </ul>
     </div>
-<!-- Fake Price Chart -->
+    <!-- Fake Price Chart -->
 <div class="container mt-5">
     <h2>Live Market Chart</h2>
-    <svg class="chart" id="price-chart" width="100%" height="200" viewBox="0 0 800 200"></svg>
+    <svg class="chart" id="price-chart" width="100%" height="250" viewBox="0 0 900 250"></svg>
 </div>
+
+<style>
+    /* Add some meme chart styling */
+    .chart {
+        background: repeating-linear-gradient(
+            0deg,
+            rgba(255, 0, 255, 0.1) 0px,
+            rgba(255, 0, 255, 0.1) 1px,
+            transparent 1px,
+            transparent 20px
+        ); /* Subtle grid lines */
+        border: 2px solid #ff00ff;
+        box-shadow: 0 0 10px #ff00ff;
+    }
+    .chart-line {
+        stroke: #00ff00; /* Switch to green for that classic crypto look */
+        stroke-width: 4;
+        filter: drop-shadow(0 0 5px #00ff00);
+    }
+    .chart-label {
+        font-family: "Arial", sans-serif;
+        fill: #ff00ff;
+        font-size: 14px;
+        text-anchor: middle;
+    }
+    .chart-y-label {
+        font-size: 12px;
+        fill: #00ff00;
+        text-anchor: end;
+    }
+</style>
 
 <script>
     // Chart setup
     const svg = document.getElementById("price-chart");
-    const chartWidth = 800;
-    const chartHeight = 200;
-    const maxPoints = 20; // Number of points to display
+    const chartWidth = 900;
+    const chartHeight = 250;
+    const maxPoints = 20;
     let dataPoints = [];
 
-    // Initialize with some starting data
+    // Meme X-axis labels
+    const xLabels = [
+        "Last Drop", "Dip Bought", "Panic Sell", "HODL Zone", "Pump It", 
+        "Rug Scare", "FOMO Peak", "420 Blaze", "Moon Soon", "Bass Drop"
+    ];
+
+    // Meme Y-axis labels with price levels
+    const yLabels = [
+        { value: 0, text: "$0 - Rug Life" },
+        { value: 69, text: "$69 - Nice" },
+        { value: 200, text: "$200 - Lambo Dreams" },
+        { value: 420, text: "$420 - To the Moon" }
+    ];
+
+    // Initialize data
     function initializeData() {
-        let lastValue = 100; // Starting value
+        let lastValue = 100;
         for (let i = 0; i < maxPoints; i++) {
-            // Random change, biased upward (-5 to +15)
             lastValue += (Math.random() * 20 - 5);
-            if (lastValue < 0) lastValue = 0; // Prevent negative values
+            if (lastValue < 0) lastValue = 0;
             dataPoints.push(lastValue);
         }
     }
 
-    // Update data with new random point
+    // Update data
     function updateData() {
         let lastValue = dataPoints[dataPoints.length - 1];
-        // Bias toward upward trend: -5 to +15 range
         let change = Math.random() * 20 - 5;
         lastValue += change;
-        if (lastValue < 0) lastValue = 0; // Keep it positive
+        if (lastValue < 0) lastValue = 0;
         dataPoints.push(lastValue);
-        if (dataPoints.length > maxPoints) dataPoints.shift(); // Remove oldest point
+        if (dataPoints.length > maxPoints) dataPoints.shift();
     }
 
     // Draw the chart
     function drawChart() {
-        // Clear previous chart
         svg.innerHTML = "";
 
-        // Scale data to fit chart height
-        const maxValue = Math.max(...dataPoints, 200); // Ensure visibility
-        const xStep = chartWidth / (maxPoints - 1);
-        let pathD = `M 0 ${chartHeight - (dataPoints[0] / maxValue) * chartHeight}`;
+        // Scale data
+        const maxValue = Math.max(...dataPoints, 420); // Cap at 420 for meme sake
+        const xStep = (chartWidth - 100) / (maxPoints - 1); // Leave room for labels
+        let pathD = `M 50 ${chartHeight - 50 - (dataPoints[0] / maxValue) * (chartHeight - 100)}`;
 
         // Build the path
         for (let i = 1; i < dataPoints.length; i++) {
-            const x = i * xStep;
-            const y = chartHeight - (dataPoints[i] / maxValue) * chartHeight;
+            const x = 50 + i * xStep;
+            const y = chartHeight - 50 - (dataPoints[i] / maxValue) * (chartHeight - 100);
             pathD += ` L ${x} ${y}`;
         }
 
-        // Create the path element
+        // Draw the path
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("d", pathD);
         path.setAttribute("class", "chart-line");
         svg.appendChild(path);
+
+        // X-axis labels (limited to 10 for readability)
+        for (let i = 0; i < Math.min(10, maxPoints); i++) {
+            const x = 50 + i * xStep;
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            text.setAttribute("x", x);
+            text.setAttribute("y", chartHeight - 10);
+            text.setAttribute("class", "chart-label");
+            text.textContent = xLabels[i % xLabels.length];
+            svg.appendChild(text);
+        }
+
+        // Y-axis labels
+        yLabels.forEach(label => {
+            const y = chartHeight - 50 - (label.value / maxValue) * (chartHeight - 100);
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            text.setAttribute("x", 45);
+            text.setAttribute("y", y + 5); // Offset for readability
+            text.setAttribute("class", "chart-y-label");
+            text.textContent = label.text;
+            svg.appendChild(text);
+        });
     }
 
     // Initial setup
