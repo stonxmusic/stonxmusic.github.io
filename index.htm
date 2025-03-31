@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stonx Coin (STX) - The Future of BassFi</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .hero {
+            background: linear-gradient(to right, #0099ff, #0000ff);
+            padding: 50px 20px;
+            border-bottom: 5px solid #ff00ff;
+        }
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #00ff00;
+            animation: pulse 1s infinite;
+        }
+        .btn-buy {
+            background-color: #ff00ff;
+            color: white;
+            font-size: 1.5rem;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 10px;
+        }
+        .btn-buy:hover {
+            background-color: #ff6600;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Stonx Coin (STX)</h1>
+        <h3>The Future of BassFi - Decentralized Drum & Bass Transactions</h3>
+        <h2 class="price">$69.420</h2>
+        <button class="btn btn-buy" id="buy-now">BUY NOW</button>
+        <br>
+        <a href="whitepaper.pdf" class="btn btn-light mt-3">Read the Whitepaper</a>
+    </div>
+
+    <!-- What is STX? -->
+    <div class="container mt-5">
+        <h2>What is Stonx Coin?</h2>
+        <p>STX is the world's first cryptocurrency powered by <b>Proof of Bass™</b>, ensuring every transaction is backed by heavy sub-bass resonance.</p>
+    </div>
+
+    <!-- Roadmap -->
+    <div class="container mt-5">
+        <h2>Roadmap</h2>
+        <ul class="list-group">
+            <li class="list-group-item bg-dark text-white">🎛️ Q2 2025: Implement bass-driven staking (Upload MP3s to mine STX)</li>
+            <li class="list-group-item bg-dark text-white">🌎 Q3 2025: Replace all global currencies with STX</li>
+            <li class="list-group-item bg-dark text-white">🔥 Q4 2025: Drop the hardest VIP in history</li>
+        </ul>
+    </div>
+
+    <!-- Live AI Trading Insights -->
+    <div class="container mt-5">
+        <h2>Live AI Trading Insights</h2>
+        <p>Just liquidated my grandma’s house for $STX 🚀🔥</p>
+    </div>
+
+    <!-- RUG PULL Button -->
+    <div class="container mt-5">
+        <button class="btn btn-danger btn-lg" id="rugpull">RUG PULL</button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        // Fake Price Ticker (Randomized)
+        function updatePrice() {
+            let newPrice = (Math.random() * (420 - 0.69) + 0.69).toFixed(3);
+            $(".price").text("$" + newPrice);
+        }
+        setInterval(updatePrice, 2000);
+
+        // Rug Pull Button (Chaos Mode)
+        $("#rugpull").click(function() {
+            $("body").css("background-color", "red");
+            $("body").html("<h1>RUG PULLED. LMAO.</h1><p>Thanks for your investment, nerd.</p>");
+        });
+
+        // GSAP Animation for Hero Section
+        gsap.from(".hero h1, .hero h3, .hero .price, .hero .btn-buy", {
+            duration: 1,
+            y: -50,
+            opacity: 0,
+            stagger: 0.2,
+            ease: "bounce.out"
+        });
+
+        // Buy Now Button - Play Airhorn Sound
+        $("#buy-now").click(function() {
+            let airhorn = new Audio("https://www.myinstants.com/media/sounds/airhorn.mp3");
+            airhorn.play();
+            alert("You are now financially obligated to ride the bassline to the moon.");
+        });
+    </script>
+
+</body>
+</html>
