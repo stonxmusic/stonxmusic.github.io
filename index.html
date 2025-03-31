@@ -1,257 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Stonx Coin (STX) - The Future of BassFi</title>
+<!-- RUG PULL Button -->
+<div class="container mt-5" id="rug-pull-section">
+    <button class="btn btn-danger btn-lg" id="rugpull">RUG PULL</button>
+</div>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    
-    <!-- Custom Styles -->
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        .hero {
-            background: linear-gradient(to right, #0099ff, #0000ff);
-            padding: 50px 20px;
-            border-bottom: 5px solid #ff00ff;
-        }
-        .price {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #00ff00;
-            animation: pulse 1s infinite, wobble 2s ease-in-out infinite;
-        }
-        .btn-buy {
-            background-color: #ff00ff;
-            color: white;
-            font-size: 1.5rem;
-            padding: 10px 30px;
-            border: none;
-            border-radius: 10px;
-        }
-        .btn-buy:hover {
-            background-color: #ff6600;
-        }
+<!-- RUG PULL - After Click -->
+<div class="container mt-5" id="rug-pull-activated" style="display: none;">
+    <button class="btn btn-primary btn-lg" id="go-back">Go Back</button>
+    <h1>RUG PULLED. LMAO.</h1>
+    <p>Thanks for your investment, nerd.</p>
+</div>
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
+<!-- Scripts -->
+<script>
+    // Rug Pull Button (Chaos Mode)
+    $("#rugpull").click(function() {
+        $("body").css("background-color", "red");
+        $("#rug-pull-section").hide(); // Hide the original section
+        $("#rug-pull-activated").show(); // Show the rug pull section
+    });
 
-        @keyframes wobble {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            50% { transform: rotate(0deg); }
-            75% { transform: rotate(-5deg); }
-            100% { transform: rotate(0deg); }
-        }
+    // Go Back Button
+    $("#go-back").click(function() {
+        $("body").css("background-color", "black");
+        $("#rug-pull-section").show(); // Show the original section again
+        $("#rug-pull-activated").hide(); // Hide the rug pull section
+    });
 
-        .confetti {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-        }
+    // GSAP Animation for Hero Section
+    gsap.from(".hero h1, .hero h3, .hero .price, .hero .btn-buy", {
+        duration: 1,
+        y: -50,
+        opacity: 0,
+        stagger: 0.2,
+        ease: "bounce.out"
+    });
 
-        .confetti-piece {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ff00ff;
-            animation: confetti 1s forwards;
-        }
+    // Fake Price Ticker (Randomized)
+    function updatePrice() {
+        let newPrice = (Math.random() * (420 - 0.69) + 0.69).toFixed(3);
+        $(".price").text("$" + newPrice);
+    }
+    setInterval(updatePrice, 2000);
 
-        @keyframes confetti {
-            0% { transform: translateY(-100px) rotate(0deg); }
-            100% { transform: translateY(100vh) rotate(360deg); }
-        }
-
-        /* Table Styling for Leaderboard */
-        table th, table td {
-            text-align: center;
-            vertical-align: middle;
-        }
-        
-        /* Fun Market Sentiment Section */
-        .sentiment {
-            font-size: 1.2rem;
-            color: #ff00ff;
-            background-color: #000;
-            padding: 15px;
-            margin-top: 30px;
-            border-radius: 10px;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Hero Section -->
-    <div class="hero">
-        <h1>Stonx Coin (STX)</h1>
-        <h3>The Future of BassFi - Decentralized Drum & Bass Transactions</h3>
-        <h2 class="price">$69.420</h2>
-        <button class="btn btn-buy" id="buy-now">BUY NOW</button>
-        <br>
-        <a href="whitepaper.pdf" class="btn btn-light mt-3" title="Spoiler: It's a joke, but click anyway!">Read the Whitepaper</a>
-    </div>
-
-    <!-- What is STX? -->
-    <div class="container mt-5">
-        <h2>What is Stonx Coin?</h2>
-        <p>STX is the world's first cryptocurrency powered by <b>Proof of Bass™</b>, ensuring every transaction is backed by heavy sub-bass resonance. Because bass is money!</p>
-    </div>
-
-    <!-- Roadmap -->
-    <div class="container mt-5">
-        <h2>Roadmap</h2>
-        <ul class="list-group">
-            <li class="list-group-item bg-dark text-white">🎛️ Q2 2025: Implement bass-driven staking (Upload MP3s to mine STX)</li>
-            <li class="list-group-item bg-dark text-white">🌎 Q3 2025: Replace all global currencies with STX</li>
-            <li class="list-group-item bg-dark text-white">🔥 Q4 2025: Drop the hardest VIP in history</li>
-        </ul>
-    </div>
-
-    <!-- Live AI Trading Insights -->
-    <div class="container mt-5">
-        <h2>Live AI Trading Insights</h2>
-        <p>Just liquidated my grandma’s house for $STX 🚀🔥</p>
-    </div>
-
-    <!-- Fake Leaderboard -->
-    <div class="container mt-5">
-        <h2>Top STX Holders</h2>
-        <table class="table table-dark table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Rank</th>
-                    <th scope="col">Holder Name</th>
-                    <th scope="col">STX Wallet</th>
-                    <th scope="col">STX Balance</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>DJ Rugpull</td>
-                    <td>0xD3ADBEAD</td>
-                    <td>420,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Skankin Whale</td>
-                    <td>0xBASSB00M</td>
-                    <td>350,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Subwoofer King</td>
-                    <td>0xS0N1CBLAST</td>
-                    <td>300,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>FartCoin CEO</td>
-                    <td>0xRUGS0R</td>
-                    <td>250,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>MoonBass Holder</td>
-                    <td>0xDEEPERTHANBASS</td>
-                    <td>200,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>BassLine Baron</td>
-                    <td>0xBASSYBOY</td>
-                    <td>150,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Sir Dropalot</td>
-                    <td>0xDROPTHETON</td>
-                    <td>100,000,000 STX</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>Neurofunk Lord</td>
-                    <td>0xSYNTHN00B</td>
-                    <td>50,000,000 STX</td>
-                </tr>
-            </tbody>
-        </table>
-        <p><em>*The whales are here, but don't worry, we’ve got plenty of STX to go around. Just don’t ask them to dump early.</em></p>
-    </div>
-
-    <!-- Market Sentiment Section -->
-    <div class="container mt-5 sentiment">
-        <h3>Market Sentiment: 😎</h3>
-        <p>"I bought 10,000 STX for 69 cents and now I'm buying a yacht!" 🚢</p>
-        <p>Don't miss out, get in before the moon landing! 🚀🔥</p>
-    </div>
-
-    <!-- RUG PULL Button -->
-    <div class="container mt-5">
-        <button class="btn btn-danger btn-lg" id="rugpull">RUG PULL</button>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
-    <script>
-        // Fake Price Ticker (Randomized)
-        function updatePrice() {
-            let newPrice = (Math.random() * (420 - 0.69) + 0.69).toFixed(3);
-            $(".price").text("$" + newPrice);
-        }
-        setInterval(updatePrice, 2000);
-
-        // Rug Pull Button (Chaos Mode)
-        $("#rugpull").click(function() {
-            $("body").css("background-color", "red");
-            $("body").html("<h1>RUG PULLED. LMAO.</h1><p>Thanks for your investment, nerd.</p>");
-        });
-
-        // GSAP Animation for Hero Section
-        gsap.from(".hero h1, .hero h3, .hero .price, .hero .btn-buy", {
-            duration: 1,
-            y: -50,
-            opacity: 0,
-            stagger: 0.2,
-            ease: "bounce.out"
-        });
-
-        // Buy Now Button - Play Airhorn Sound
-        $("#buy-now").click(function() {
-            let airhorn = new Audio("https://www.myinstants.com/media/sounds/airhorn.mp3");
-            airhorn.play();
-
-            // Confetti Effect
-            let confettiArea = $("<div class='confetti'></div>").appendTo("body");
-            for (let i = 0; i < 50; i++) {
-                $("<div class='confetti-piece'></div>").css({
-                    left: Math.random() * 100 + "%",
-                    animationDuration: Math.random() * 2 + 2 + "s",
-                    animationDelay: Math.random() * 1 + "s",
-                    backgroundColor: "#" + Math.floor(Math.random() * 16777215).toString(16)
-                }).appendTo(confettiArea);
-            }
-
-            alert("You are now financially obligated to ride the bassline to the moon.");
-        });
-    </script>
-
-</body>
-</html>
+    // Buy Now Button - Play Airhorn Sound
+    $("#buy-now").click(function() {
+        let airhorn = new Audio("https://www.myinstants.com/media/sounds/airhorn.mp3");
+        airhorn.play();
+        alert("You are now financially obligated to ride the bassline to the moon.");
+    });
+</script>
