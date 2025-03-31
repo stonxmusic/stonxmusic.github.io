@@ -138,10 +138,12 @@
             <li class="list-group-item bg-dark text-white">🔥 Q3 2026: NASA to use STX to fund Mars rave</li>
         </ul>
     </div>
-    <!-- Fake Price Chart -->
+        <!-- Fake Price Chart -->
 <div class="container mt-5">
     <h2>Live Market Chart</h2>
-    <svg class="chart" id="price-chart" width="100%" height="250" viewBox="0 0 900 250"></svg>
+    <div style="overflow-x: auto;">
+        <svg class="chart" id="price-chart" width="100%" height="300" viewBox="0 0 900 300" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
 </div>
 
 <style>
@@ -156,22 +158,26 @@
         ); /* Subtle grid lines */
         border: 2px solid #ff00ff;
         box-shadow: 0 0 10px #ff00ff;
+        max-width: 100%;
     }
     .chart-line {
-        stroke: #00ff00; /* Switch to green for that classic crypto look */
+        stroke: #00ff00; /* Green for crypto vibes */
         stroke-width: 4;
         filter: drop-shadow(0 0 5px #00ff00);
     }
     .chart-label {
         font-family: "Arial", sans-serif;
         fill: #ff00ff;
-        font-size: 14px;
+        font-size: 12px;
         text-anchor: middle;
+        font-weight: bold;
     }
     .chart-y-label {
+        font-family: "Arial", sans-serif;
         font-size: 12px;
         fill: #00ff00;
         text-anchor: end;
+        font-weight: bold;
     }
 </style>
 
@@ -179,8 +185,8 @@
     // Chart setup
     const svg = document.getElementById("price-chart");
     const chartWidth = 900;
-    const chartHeight = 250;
-    const maxPoints = 20;
+    const chartHeight = 300;
+    const maxPoints = 10; // Reduced for better mobile display
     let dataPoints = [];
 
     // Meme X-axis labels
@@ -222,13 +228,13 @@
         svg.innerHTML = "";
 
         // Scale data
-        const maxValue = Math.max(...dataPoints, 420); // Cap at 420 for meme sake
+        const maxValue = Math.max(...dataPoints, 420);
         const xStep = (chartWidth - 100) / (maxPoints - 1); // Leave room for labels
-        let pathD = `M 50 ${chartHeight - 50 - (dataPoints[0] / maxValue) * (chartHeight - 100)}`;
+        let pathD = `M 80 ${chartHeight - 50 - (dataPoints[0] / maxValue) * (chartHeight - 100)}`;
 
         // Build the path
         for (let i = 1; i < dataPoints.length; i++) {
-            const x = 50 + i * xStep;
+            const x = 80 + i * xStep;
             const y = chartHeight - 50 - (dataPoints[i] / maxValue) * (chartHeight - 100);
             pathD += ` L ${x} ${y}`;
         }
@@ -239,13 +245,14 @@
         path.setAttribute("class", "chart-line");
         svg.appendChild(path);
 
-        // X-axis labels (limited to 10 for readability)
-        for (let i = 0; i < Math.min(10, maxPoints); i++) {
-            const x = 50 + i * xStep;
+        // X-axis labels
+        for (let i = 0; i < maxPoints; i++) {
+            const x = 80 + i * xStep;
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
             text.setAttribute("x", x);
-            text.setAttribute("y", chartHeight - 10);
+            text.setAttribute("y", chartHeight - 20);
             text.setAttribute("class", "chart-label");
+            text.setAttribute("transform", `rotate(-45 ${x},${chartHeight - 20})`); // Rotate for better fit
             text.textContent = xLabels[i % xLabels.length];
             svg.appendChild(text);
         }
@@ -253,12 +260,14 @@
         // Y-axis labels
         yLabels.forEach(label => {
             const y = chartHeight - 50 - (label.value / maxValue) * (chartHeight - 100);
-            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            text.setAttribute("x", 45);
-            text.setAttribute("y", y + 5); // Offset for readability
-            text.setAttribute("class", "chart-y-label");
-            text.textContent = label.text;
-            svg.appendChild(text);
+            if (y > 50 && y < chartHeight - 50) { // Ensure labels are within bounds
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", 70);
+                text.setAttribute("y", y + 5);
+                text.setAttribute("class", "chart-y-label");
+                text.textContent = label.text;
+                svg.appendChild(text);
+            }
         });
     }
 
