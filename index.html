@@ -91,7 +91,6 @@
             margin-top: 30px;
             border-radius: 10px;
         }
-        
     </style>
 </head>
 <body>
@@ -127,65 +126,82 @@
         </ul>
     </div>
         
-        <!-- Fake Price Chart -->
-<div class="container mt-5">
-    <h2>Live Market Chart</h2>
-    <div style="overflow-x: auto;">
-        <svg class="chart" id="price-chart" width="100%" height="400" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet"></svg>
+    <!-- Fake Price Chart -->
+    <div class="container mt-5">
+        <h2>Live Market Chart</h2>
+        <div style="overflow-x: auto;">
+            <svg class="chart" id="price-chart" width="100%" height="400" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
     </div>
-</div>
 
-<style>
-    /* Add some meme chart styling */
-    .chart {
-        margin-top: 20px;
-        background: repeating-linear-gradient(
-            0deg,
-            rgba(255, 0, 255, 0.1) 0px,
-            rgba(255, 0, 255, 0.1) 1px,
-            transparent 1px,
-            transparent 20px
-        );
-        border: 2px solid #ff00ff;
-        box-shadow: 0 0 10px #ff00ff;
-        max-width: 100%;
-        background-color: #1a1a1a;
-    }
-    .chart-line {
-        stroke: #00ff00;
-        stroke-width: 4;
-        fill: none;
-        filter: drop-shadow(0 0 5px #00ff00);
-    }
-    .chart-label {
-        font-family: "Arial", sans-serif;
-        fill: #ff00ff;
-        font-size: 14px;
-        text-anchor: end;
-        font-weight: bold;
-    }
-</style>
+    <style>
+        /* Add some meme chart styling */
+        .chart {
+            margin-top: 20px;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 0, 255, 0.1) 0px,
+                rgba(255, 0, 255, 0.1) 1px,
+                transparent 1px,
+                transparent 20px
+            );
+            border: 2px solid #ff00ff;
+            box-shadow: 0 0 10px #ff00ff;
+            max-width: 100%;
+            background-color: #1a1a1a;
+        }
+        .chart-line {
+            stroke: #00ff00;
+            stroke-width: 4;
+            fill: none;
+            filter: drop-shadow(0 0 5px #00ff00);
+        }
+        .chart-label {
+            font-family: "Arial", sans-serif;
+            fill: #ff00ff;
+            font-size: 14px;
+            text-anchor: end;
+            font-weight: bold;
+        }
+    </style>
 
-<script>
-    // Chart setup
-    const svg = document.getElementById("price-chart");
-    const chartWidth = 1000;
-    const chartHeight = 400;
-    const maxPoints = 10;
-    let dataPoints = [];
-    let trendDirection = 1;
-    let trendCounter = 0;
+    <script>
+        // Chart setup
+        const svg = document.getElementById("price-chart");
+        const chartWidth = 1000;
+        const chartHeight = 400;
+        const maxPoints = 10;
+        let dataPoints = [];
+        let trendDirection = 1;
+        let trendCounter = 0;
 
-    // Meme Y-axis labels (labeled as time, but actually price)
-    const yLabels = [
-        "Last Drop", "Dip Bought", "Panic Sell", "HODL Zone", "Pump It", 
-        "Rug Scare", "FOMO Peak", "420 Blaze", "Moon Soon", "Bass Drop"
-    ];
+        // Meme Y-axis labels (labeled as time, but actually price)
+        const yLabels = [
+            "Last Drop", "Dip Bought", "Panic Sell", "HODL Zone", "Pump It", 
+            "Rug Scare", "FOMO Peak", "420 Blaze", "Moon Soon", "Bass Drop"
+        ];
 
-    // Initialize data with a volatile pattern
-    function initializeData() {
-        let lastValue = 100;
-        for (let i = 0; i < maxPoints; i++) {
+        // Initialize data with a volatile pattern
+        function initializeData() {
+            let lastValue = 100;
+            for (let i = 0; i < maxPoints; i++) {
+                if (trendCounter > 2) {
+                    trendDirection *= -1;
+                    trendCounter = 0;
+                }
+                let change = trendDirection * (Math.random() * 30 + 10);
+                if (Math.random() < 0.3) change *= 1.5;
+                lastValue += change;
+                if (lastValue < 0) lastValue = 0;
+                if (lastValue > 420) lastValue = 420;
+                dataPoints.push(lastValue);
+                trendCounter++;
+            }
+        }
+
+        // Update data with volatile up-and-down movements
+        function updateData() {
+            let lastValue = dataPoints[dataPoints.length - 1];
             if (trendCounter > 2) {
                 trendDirection *= -1;
                 trendCounter = 0;
@@ -196,132 +212,112 @@
             if (lastValue < 0) lastValue = 0;
             if (lastValue > 420) lastValue = 420;
             dataPoints.push(lastValue);
+            if (dataPoints.length > maxPoints) dataPoints.shift();
             trendCounter++;
         }
-    }
 
-    // Update data with volatile up-and-down movements
-    function updateData() {
-        let lastValue = dataPoints[dataPoints.length - 1];
-        if (trendCounter > 2) {
-            trendDirection *= -1;
-            trendCounter = 0;
+        // Draw the chart
+        function drawChart() {
+            svg.innerHTML = "";
+
+            // Scale data
+            const maxValue = Math.max(...dataPoints, 420);
+            const xStep = (chartWidth - 200) / (maxPoints - 1);
+            const yScale = (chartHeight - 120) / maxValue;
+            let pathD = `M 100 ${chartHeight - 60 - (dataPoints[0] * yScale)}`;
+
+            // Build the path (X is time, Y is price)
+            for (let i = 1; i < dataPoints.length; i++) {
+                const x = 100 + i * xStep;
+                const y = chartHeight - 60 - (dataPoints[i] * yScale);
+                pathD += ` L ${x} ${y}`;
+            }
+
+            // Draw the path
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", pathD);
+            path.setAttribute("class", "chart-line");
+            svg.appendChild(path);
+
+            // Y-axis labels (labeled as time, but actually price)
+            for (let i = 0; i < maxPoints; i += 2) { // Step by 2 to reduce label density
+                const priceValue = (i / (maxPoints - 1)) * maxValue;
+                const y = chartHeight - 60 - (priceValue * yScale);
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", 90);
+                text.setAttribute("y", y + 5);
+                text.setAttribute("class", "chart-label");
+                text.textContent = yLabels[i % yLabels.length];
+                svg.appendChild(text);
+            }
         }
-        let change = trendDirection * (Math.random() * 30 + 10);
-        if (Math.random() < 0.3) change *= 1.5;
-        lastValue += change;
-        if (lastValue < 0) lastValue = 0;
-        if (lastValue > 420) lastValue = 420;
-        dataPoints.push(lastValue);
-        if (dataPoints.length > maxPoints) dataPoints.shift();
-        trendCounter++;
-    }
 
-    // Draw the chart
-    function drawChart() {
-        svg.innerHTML = "";
-
-        // Scale data
-        const maxValue = Math.max(...dataPoints, 420);
-        const xStep = (chartWidth - 200) / (maxPoints - 1);
-        const yScale = (chartHeight - 120) / maxValue;
-        let pathD = `M 100 ${chartHeight - 60 - (dataPoints[0] * yScale)}`;
-
-        // Build the path (X is time, Y is price)
-        for (let i = 1; i < dataPoints.length; i++) {
-            const x = 100 + i * xStep;
-            const y = chartHeight - 60 - (dataPoints[i] * yScale);
-            pathD += ` L ${x} ${y}`;
-        }
-
-        // Draw the path
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path.setAttribute("d", pathD);
-        path.setAttribute("class", "chart-line");
-        svg.appendChild(path);
-
-        // Y-axis labels (labeled as time, but actually price)
-        for (let i = 0; i < maxPoints; i++) {
-            const priceValue = (i / (maxPoints - 1)) * maxValue;
-            const y = chartHeight - 60 - (priceValue * yScale);
-            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            text.setAttribute("x", 90);
-            text.setAttribute("y", y + 5);
-            text.setAttribute("class", "chart-label");
-            text.textContent = yLabels[i % yLabels.length];
-            svg.appendChild(text);
-        }
-    }
-
-    // Initial setup
-    initializeData();
-    drawChart();
-
-    // Auto-update every 2 seconds
-    setInterval(() => {
-        updateData();
+        // Initial setup
+        initializeData();
         drawChart();
-    }, 2000);
-</script>
-    
 
-   <!-- Live AI Trading Insights -->
-<div class="container mt-5">
-    <h2>Live AI Trading Insights</h2>
-    <p id="trading-insight">Just liquidated my grandma’s house for $STX 🚀🔥</p>
-</div>
+        // Auto-update every 2 seconds
+        setInterval(() => {
+            updateData();
+            drawChart();
+        }, 2000);
+    </script>
 
+    <!-- Live AI Trading Insights -->
+    <div class="container mt-5">
+        <h2>Live AI Trading Insights</h2>
+        <p id="trading-insight">Just liquidated my grandma’s house for $STX 🚀🔥</p>
+    </div>
 
-<script>
-    let insights = [
-        "Just liquidated my grandma’s house for $STX 🚀🔥",
-        "Sold my car, bought the dip, now I ride the waves 🏄‍♂️💸",
-        "My fridge is empty, but my wallet is full of STX 😎",
-        "Quit my job to day trade STX. What could go wrong? 📉🔥",
-        "Bought STX at $0.69, now it's at $420. Coincidence? I think not. 🤯",
-        "Mom said it's a scam, now she's asking for financial advice 😏",
-        "Casually explaining to the bank why I need another mortgage 🏦💀",
-        "NFTs are out, BassFi is in. All in on STX 🚀",
-        "Just convinced my boss to pay me in STX. He thinks it's Bitcoin 🤫",
-        "Got my landlord to accept rent in STX. The future is now 🔥",
-        "DJ Khaled said ‘BUY ANOTHER ONE’… so I did. STX to the moon! 🚀🎶",
-        "Sold my speakers to buy more STX. Now I just imagine the bass. 🎧💸",
-        "STX just hit 4,200% gains! I can finally afford one festival beer! 🍻🚀",
-        "Mom said stop trading, now she’s asking how to stake STX. 🤔💰",
-        "I tried to short STX, now my rent is due in exposure. 📉🔥",
-        "Quit my job, sold my car, moved into a bass bin. All in on STX! 🎛️💰",
-        "Dropped my entire net worth into STX. Even my subwoofers are shaking. 🎶💎",
-        "Told my landlord I can't pay rent, but I got him an STX airdrop instead. 🤝",
-        "Bass traders don’t panic sell, we double drop. 🥁💥📈",
-        "Tried to stake STX but accidentally bought a whole festival ticket instead. 🎟️🔥",
-        "My entire portfolio is now just STX and hope. 🚀💀",
-        "Charts said sell, but the drop was too fire. All in. 🔥📉📈",
-        "Listening to STX price updates like it’s a drum & bass set. 🥁📊",
-        "Wife left me because of STX… but now I can double down. 💔💎",
-        "Casually explaining to my family why I need another remortgage for STX. 🏦💀",
-        "Degen mode activated: spent my last £20 on STX instead of food. 🍽️📉",
-        "Wrote a song about STX mooning, then it dumped. Call me DJ Rugpull. 🎶📉",
-        "Lost everything on STX, but at least the memes are fire. 🔥😂",
-        "STX just pumped 500%. Still won’t sell. Only exit is generational wealth. 🚀💎",
-        "Dropped out of school to trade STX full-time. No regrets. Just vibes. 😎📊"
-    ];
+    <script>
+        let insights = [
+            "Just liquidated my grandma’s house for $STX 🚀🔥",
+            "Sold my car, bought the dip, now I ride the waves 🏄‍♂️💸",
+            "My fridge is empty, but my wallet is full of STX 😎",
+            "Quit my job to day trade STX. What could go wrong? 📉🔥",
+            "Bought STX at $0.69, now it's at $420. Coincidence? I think not. 🤯",
+            "Mom said it's a scam, now she's asking for financial advice 😏",
+            "Casually explaining to the bank why I need another mortgage 🏦💀",
+            "NFTs are out, BassFi is in. All in on STX 🚀",
+            "Just convinced my boss to pay me in STX. He thinks it's Bitcoin 🤫",
+            "Got my landlord to accept rent in STX. The future is now 🔥",
+            "DJ Khaled said ‘BUY ANOTHER ONE’… so I did. STX to the moon! 🚀🎶",
+            "Sold my speakers to buy more STX. Now I just imagine the bass. 🎧💸",
+            "STX just hit 4,200% gains! I can finally afford one festival beer! 🍻🚀",
+            "Mom said stop trading, now she’s asking how to stake STX. 🤔💰",
+            "I tried to short STX, now my rent is due in exposure. 📉🔥",
+            "Quit my job, sold my car, moved into a bass bin. All in on STX! 🎛️💰",
+            "Dropped my entire net worth into STX. Even my subwoofers are shaking. 🎶💎",
+            "Told my landlord I can't pay rent, but I got him an STX airdrop instead. 🤝",
+            "Bass traders don’t panic sell, we double drop. 🥁💥📈",
+            "Tried to stake STX but accidentally bought a whole festival ticket instead. 🎟️🔥",
+            "My entire portfolio is now just STX and hope. 🚀💀",
+            "Charts said sell, but the drop was too fire. All in. 🔥📉📈",
+            "Listening to STX price updates like it’s a drum & bass set. 🥁📊",
+            "Wife left me because of STX… but now I can double down. 💔💎",
+            "Casually explaining to my family why I need another remortgage for STX. 🏦💀",
+            "Degen mode activated: spent my last £20 on STX instead of food. 🍽️📉",
+            "Wrote a song about STX mooning, then it dumped. Call me DJ Rugpull. 🎶📉",
+            "Lost everything on STX, but at least the memes are fire. 🔥😂",
+            "STX just pumped 500%. Still won’t sell. Only exit is generational wealth. 🚀💎",
+            "Dropped out of school to trade STX full-time. No regrets. Just vibes. 😎📊"
+        ];
 
-    let unusedInsights = [...insights]; // Copy of the original list
+        let unusedInsights = [...insights]; // Copy of the original list
 
-    function updateInsight() {
-        if (unusedInsights.length === 0) {
-            unusedInsights = [...insights]; // Reset when all have been used
+        function updateInsight() {
+            if (unusedInsights.length === 0) {
+                unusedInsights = [...insights]; // Reset when all have been used
+            }
+
+            const randomIndex = Math.floor(Math.random() * unusedInsights.length);
+            const insight = unusedInsights.splice(randomIndex, 1)[0]; // Remove from list
+
+            document.getElementById("trading-insight").textContent = insight;
         }
 
-        const randomIndex = Math.floor(Math.random() * unusedInsights.length);
-        const insight = unusedInsights.splice(randomIndex, 1)[0]; // Remove from list
-
-        document.getElementById("trading-insight").textContent = insight;
-    }
-
-    setInterval(updateInsight, 3500); // Changes every 3.5 seconds
-</script>
-
+        setInterval(updateInsight, 3500); // Changes every 3.5 seconds
+    </script>
 
     <!-- Fake Leaderboard -->
     <div class="container mt-5">
