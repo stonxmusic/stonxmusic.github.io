@@ -126,6 +126,7 @@
             <li class="list-group-item bg-dark text-white">🔥 Q3 2026: NASA to use STX to fund Mars rave</li>
         </ul>
     </div>
+        
         <!-- Fake Price Chart -->
 <div class="container mt-5">
     <h2>Live Market Chart</h2>
@@ -139,7 +140,7 @@
     .chart {
         margin-top: 20px;
         background: repeating-linear-gradient(
-            0deg, /* Vertical grid lines for time on X */
+            0deg,
             rgba(255, 0, 255, 0.1) 0px,
             rgba(255, 0, 255, 0.1) 1px,
             transparent 1px,
@@ -163,13 +164,6 @@
         text-anchor: end;
         font-weight: bold;
     }
-    .chart-x-label {
-        font-family: "Arial", sans-serif;
-        font-size: 14px;
-        fill: #00ff00;
-        text-anchor: middle;
-        font-weight: bold;
-    }
 </style>
 
 <script>
@@ -179,21 +173,13 @@
     const chartHeight = 400;
     const maxPoints = 10;
     let dataPoints = [];
-    let trendDirection = 1; // 1 for upward trend, -1 for downward trend
-    let trendCounter = 0; // Tracks how long the current trend has been going
+    let trendDirection = 1;
+    let trendCounter = 0;
 
     // Meme Y-axis labels (labeled as time, but actually price)
     const yLabels = [
         "Last Drop", "Dip Bought", "Panic Sell", "HODL Zone", "Pump It", 
         "Rug Scare", "FOMO Peak", "420 Blaze", "Moon Soon", "Bass Drop"
-    ];
-
-    // Meme X-axis labels (labeled as price, but actually time)
-    const xLabels = [
-        { value: 0, text: "$0 - Rug Life" },
-        { value: 69, text: "$69 - Nice" },
-        { value: 200, text: "$200 - Lambo Dreams" },
-        { value: 420, text: "$420 - To the Moon" }
     ];
 
     // Initialize data with a volatile pattern
@@ -237,8 +223,8 @@
 
         // Scale data
         const maxValue = Math.max(...dataPoints, 420);
-        const xStep = (chartWidth - 200) / (maxPoints - 1); // Time on X-axis
-        const yScale = (chartHeight - 120) / maxValue; // Price on Y-axis
+        const xStep = (chartWidth - 200) / (maxPoints - 1);
+        const yScale = (chartHeight - 120) / maxValue;
         let pathD = `M 100 ${chartHeight - 60 - (dataPoints[0] * yScale)}`;
 
         // Build the path (X is time, Y is price)
@@ -256,30 +242,15 @@
 
         // Y-axis labels (labeled as time, but actually price)
         for (let i = 0; i < maxPoints; i++) {
-            const priceValue = (i / (maxPoints - 1)) * maxValue; // Map index to price
+            const priceValue = (i / (maxPoints - 1)) * maxValue;
             const y = chartHeight - 60 - (priceValue * yScale);
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
             text.setAttribute("x", 90);
             text.setAttribute("y", y + 5);
             text.setAttribute("class", "chart-label");
-            text.textContent = yLabels[i % yLabels.length];
+            text.textContent = yLabels[i %   textContent = yLabels[i % yLabels.length];
             svg.appendChild(text);
         }
-
-        // X-axis labels (labeled as price, but actually time)
-        xLabels.forEach(label => {
-            const timeValue = (label.value / 420) * (maxPoints - 1); // Map price label to time
-            const x = 100 + timeValue * xStep;
-            if (x >= 100 && x <= chartWidth - 100) {
-                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                text.setAttribute("x", x);
-                text.setAttribute("y", chartHeight - 30);
-                text.setAttribute("class", "chart-x-label");
-                text.setAttribute("transform", `rotate(-45 ${x},${chartHeight - 30})`);
-                text.textContent = label.text;
-                svg.appendChild(text);
-            }
-        });
     }
 
     // Initial setup
@@ -292,7 +263,6 @@
         drawChart();
     }, 2000);
 </script>
-        
     
 
    <!-- Live AI Trading Insights -->
