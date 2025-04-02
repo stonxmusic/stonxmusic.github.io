@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>April Fools!</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .glitch {
+            position: relative;
+            cursor: pointer;
+        }
+        .glitch img {
+            width: 200px;
+            animation: glitch 0.5s infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0, 0); }
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="glitch" onclick="redirect()">
+        <img src="1000006075-removebg-preview (1).png" alt="Logo">
+    </div>
+    <div class="message">That was fun! April Fools—until next year! 🎭</div>
+    <script>
+        function redirect() {
+            window.location.href = "https://www.instagram.com/stonx_music";
+        }
+    </script>
+</body>
+</html>
