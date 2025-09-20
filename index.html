@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" href="assets/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    background-image: url('arcade-bg.jpg'); /* use your final arcade frame */
+    background-size: cover;  /* preserves aspect ratio */
+    background-repeat: no-repeat;
+    background-position: center center; /* center both axes */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  canvas {
+    display: block;
+    max-height: 100vh;
+    max-width: 100vw;
+    object-fit: contain;
+    z-index: 2;
+	box-shadow: 0 0 30px rgba(0,255,255,0.4);
+border-radius: 8px;
+
+  }
+</style>
+
+
+
+
+    <meta charset="UTF-8">
+    <title>Check the Beat</title>
+	
+	<script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="game.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<div id="score-form" style="display: none; position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; text-align: center;">
+  <input id="playerName" type="text" placeholder="Name for leaderboard"
+         style="margin-bottom: 8px; padding: 8px; font-size: 16px; width: 250px;"><br>
+  <input id="email" type="email" placeholder="Email (optional for prize)"
+         style="margin-bottom: 12px; padding: 8px; font-size: 16px; width: 250px;"><br>
+  <button id="finalSendBtn"
+          style="padding: 10px 20px; font-size: 16px; background: cyan; border: none; cursor: pointer;">Send Score</button>
+</div>
+<script>
+  const nameInput = document.getElementById('playerName');
+  const emailInput = document.getElementById('email');
+
+  [nameInput, emailInput].forEach(input => {
+    input.addEventListener('keydown', (e) => {
+      // Stop Phaser from seeing this key press
+      e.stopPropagation();
+    });
+  });
+</script>
+<!-- 🏆 Leaderboard Modal -->
+<div id="leaderboard" style="display:none; position:fixed; top:210px; left:50%; transform:translateX(-50%); background:#000; color:#00ffcc; padding:20px 30px; border:2px solid #00ffcc; border-radius:8px; z-index:999; font-family: monospace;">
+  <h2 style="text-align:center;">🏆 Top 10 Scores</h2>
+  <ol id="leaderboardList" style="margin-top: 10px; padding-left: 20px;"></ol>
+  <div style="text-align:center; margin-top:10px;">
+    <button onclick="document.getElementById('leaderboard').style.display='none'" style="padding:6px 12px; background:#00ffcc; border:none; color:#000; font-weight:bold; cursor:pointer;">
+      CLOSE
+    </button>
+  </div>
+</div>
+
+
+</body>
+</html>
