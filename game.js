@@ -45,12 +45,12 @@ class BootScene extends Phaser.Scene {
 	this.load.image('epArt', 'assets/ep_art.jpg');
 	this.load.image('powerup_x2', 'assets/powerup_x2.png');
 	this.load.image('stxLogo', 'assets/stx_logo.png');
+  
 	
 	// --- NEW: gun powerup + bullet + shoot SFX
 	this.load.image('powerup_gun', 'assets/powerup_gun.png');
 	this.load.image('bullet', 'assets/bullet.png');
 	this.load.audio('sfx_shoot', 'assets/shoot.mp3');
-	// --- end new
 
     this.load.spritesheet('zap', 'assets/zap.png', { frameWidth: 32, frameHeight: 32 });
 	this.load.spritesheet('enemy', 'assets/enemy_spritesheet.png', {
@@ -179,7 +179,7 @@ this.sfx = {
 
 };
 this.sfx.death = this.sound.add('sfx_death');
-// --- NEW: shoot SFX
+
 this.sfx.shoot = this.sound.add('sfx_shoot');
 
 this.anims.create({
@@ -187,6 +187,20 @@ this.anims.create({
   frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 1 }),
   frameRate: 4, // Adjust speed here
   repeat: -1    // Loop forever
+});
+// Enemy 2 animation
+this.anims.create({
+    key: 'enemy2Float',
+    frames: this.anims.generateFrameNumbers('enemy', { start: 2, end: 3 }),
+    frameRate: 4,
+    repeat: -1
+});
+// Enemy 3 animation
+this.anims.create({
+    key: 'enemy3Float',
+    frames: this.anims.generateFrameNumbers('enemy', { start: 4, end: 5 }),
+    frameRate: 4,
+    repeat: -1
 });
     this.anims.create({
       key: 'zapAnim',
@@ -282,7 +296,20 @@ this.topScoreText = this.add.text(10, 35, `Top: ${storedTop}`, {
     this.lastFired = 0;
     this.gunTimer = null;
   }
-  
+  //NEW ENEMIES
+getEnemyFrame() {
+    if (this.score >= 200) {
+        // Enemy2 or Enemy3
+        const variants = [0, 1, 2, 3, 4, 5]; // all frames
+        return Phaser.Utils.Array.GetRandom(variants);
+    } else if (this.score >= 100) {
+        const variants = [0, 1, 2, 3]; // enemy1 + enemy2
+        return Phaser.Utils.Array.GetRandom(variants);
+    } else {
+        return Phaser.Utils.Array.GetRandom([0, 1]); // only enemy1
+    }
+}
+// NEW ENEMIES END
   fetchTopScores() {
   supabaseClient
     .from('scores')
@@ -500,6 +527,7 @@ captureAndDownload() {
       obs.play('enemyFloat');
       obs.setVelocityY(this.baseSpeed);
       obs.setScale(Phaser.Math.FloatBetween(0.2, 0.5));
+      
     });
   });
 
@@ -512,11 +540,16 @@ captureAndDownload() {
 
 spawnObstacle() {
   const x = Phaser.Math.Between(30, 450);
+const frame = this.getEnemyFrame(); // pick frame based on score
+  const obs = this.obstacles.create(x, 0, 'enemy', frame);
 
-  const obs = this.obstacles.create(x, 0, 'enemy');
-
-  // Animate
-  obs.play('enemyFloat');
+if (frame < 2) {
+    obs.play('enemyFloat');      // Enemy1
+} else if (frame < 4) {
+    obs.play('enemy2Float');     // Enemy2
+} else {
+    obs.play('enemy3Float');     // Enemy3
+}
 
   // Set a scale for more reasonable sizes
   const scale = Phaser.Math.FloatBetween(0.1, 0.25);
@@ -524,6 +557,14 @@ spawnObstacle() {
 
   // Set downward speed
   obs.setVelocityY(this.baseSpeed);
+  const tints = [0xffaaaa, 0xaaffaa, 0xaaaaff, 0xffffaa];
+const tint = Phaser.Display.Color.Interpolate.ColorWithColor(
+  Phaser.Display.Color.ValueToColor(0xffffff), // base
+  Phaser.Display.Color.ValueToColor(Phaser.Utils.Array.GetRandom(tints)),
+  100, Phaser.Math.Between(20, 50)
+);
+obs.setTint(Phaser.Display.Color.GetColor(tint.r, tint.g, tint.b));
+ 
 }
 
 
