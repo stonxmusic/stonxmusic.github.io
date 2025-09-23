@@ -57,7 +57,7 @@ class BootScene extends Phaser.Scene {
   frameWidth: 280,  // Replace with your frame size
   frameHeight: 280
 });
-    this.load.audio('menuMusic', ['assets/menu.mp3']);
+    this.load.audio('menuMusic', ['assets/checkthebeat.mp3']);
     this.load.audio('gameMusic', ['assets/checkthebeat.mp3']);
 	this.load.audio('sfx_powerup', 'assets/sfx_powerup.mp3');
 this.load.audio('sfx_shield', 'assets/sfx_powerup.mp3');
