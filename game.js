@@ -42,7 +42,7 @@ class BootScene extends Phaser.Scene {
     this.load.image('shieldGlow', 'assets/shield_glow.png');
     this.load.image('scanlines', 'assets/scanlines.png');
 	this.load.image('powerup_slow', 'assets/powerup_slow.png');
-	this.load.image('epArt', 'assets/ep_art.png');
+	this.load.image('epArt', 'assets/ep_art.jpg');
 	this.load.image('powerup_x2', 'assets/powerup_x2.png');
 	this.load.image('stxLogo', 'assets/stx_logo.png');
 	
