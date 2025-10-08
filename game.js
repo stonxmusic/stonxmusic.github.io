@@ -827,7 +827,7 @@ this.add.text(240, 105, `BEST: ${localStorage.getItem('topScore') || this.score}
     padding: { x: 12, y: 6 }
   }).setOrigin(0.5).setInteractive().setDepth(21);
   listenNowBtn.on('pointerdown', () => {
-    window.open('https://your.link.to/checkthebeat', '_blank');
+    window.open('https://cygnusmusic.link/er9berv', '_blank');
   });
   const shareBtn = this.add.text(240, 565, ' SAVE SCORECARD ', {
   fontSize: '20px',
